@@ -1,7 +1,7 @@
 ![testimonials](testimonials_short.gif)
-# Infinite Testimonials
+# Infinite Fake Testimonials
 
-This is a demo of [FastHTML](https://fastht.ml/) that dynamically generates and displays AI-powered testimonials using [Outlines](https://github.com/outlines-dev/outlines) for Structured Generation. This project showcases how seamlessly technology integrates to enhance web content delivery, [inspired by the possibilities of structured data generation](https://x.com/_scottcondron/status/1828801744853516777) from LLMs.
+This is a demo of [FastHTML](https://fastht.ml/) that dynamically generates and displays AI-generated testimonials using [Outlines](https://github.com/outlines-dev/outlines) for Structured Generation. This project showcases how seamlessly technology integrates to enhance web content delivery, [inspired by the possibilities of structured data generation](https://x.com/_scottcondron/status/1828801744853516777) from LLMs.
 
 ## How it works
 
@@ -30,7 +30,7 @@ def generate_testimonial_card() -> Testimonial:
     return Testimonial(**result)
 ```
 
-Every time the user clicks the `Next` button, a new testimonial is generated and displayed.
+Every time the user clicks the `Next` button, a new fake testimonial is generated and displayed.
 
 ## LLM generation on the cloud with Modal
 
