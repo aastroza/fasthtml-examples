@@ -35,7 +35,7 @@ Every time the user clicks the `Next` button, a new testimonial is generated and
 
 ## LLM generation on the cloud with Modal
 
-First, install the Modal client:
+First, install the [Modal](https://modal.com/) client:
 
 ```bash
 pip install modal
