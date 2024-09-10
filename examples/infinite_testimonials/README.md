@@ -2,11 +2,11 @@
 
 ![testimonials](testimonials.gif)
 
-This is a [FastHTML](https://fastht.ml/) demo that dynamically generates and displays AI-powered testimonials using [Outlines](https://github.com/outlines-dev/outlines) for Structured Generation. [Inspired by the possibilities of structured data generation](https://x.com/_scottcondron/status/1828801744853516777) from LLMs, this project showcases how seamlessly technology can integrate to enhance web content delivery.
+This is a demo of [FastHTML](https://fastht.ml/) that dynamically generates and displays AI-powered testimonials using [Outlines](https://github.com/outlines-dev/outlines) for Structured Generation. This project showcases how seamlessly technology integrates to enhance web content delivery, [inspired by the possibilities of structured data generation](https://x.com/_scottcondron/status/1828801744853516777) from LLMs.
 
 ## How it works
 
-We define a structured object that can be rendered by FastHTML.
+We define a structured object that FastHTML renders.
 
 ```python
 class Testimonial(BaseModel):
@@ -31,26 +31,26 @@ def generate_testimonial_card() -> Testimonial:
     return Testimonial(**result)
 ```
 
-So every time the user click the `Next` button, a new testimonial is LLM-generated and displayed.
+Every time the user clicks the `Next` button, a new testimonial is generated and displayed.
 
 ## LLM generation on the cloud with Modal
 
-First install the Modal client:
+First, install the Modal client:
 
 ```bash
 pip install modal
 ```
 
-You then need to obtain a token from Modal. Run the following command:
+Then, you need to obtain a token from Modal. Run the following command:
 
 ```bash
 modal setup
 ```
 
-Once that is set you can setup the Modal app by running:
+Once that is set, you can setup the Modal app by running:
 
 ```bash
 modal deploy transformers_outlines.py
 ```
 
-You should see the Modal app initialize, and then you can start using it.
+You see the Modal app initialize, and then you can start using it.
