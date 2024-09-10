@@ -1,4 +1,4 @@
-![testimonials](testimonials.gif)
+![testimonials](testimonials_short.gif)
 # Infinite Testimonials
 
 This is a demo of [FastHTML](https://fastht.ml/) that dynamically generates and displays AI-powered testimonials using [Outlines](https://github.com/outlines-dev/outlines) for Structured Generation. This project showcases how seamlessly technology integrates to enhance web content delivery, [inspired by the possibilities of structured data generation](https://x.com/_scottcondron/status/1828801744853516777) from LLMs.
