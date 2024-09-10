@@ -116,14 +116,12 @@ def get():
                   Div(
                       Div(generate_testimonial_card(), id="testimonial-card"),
                       Div(
-                          # Only Next button which fetches a random testimonial
                           Button("Next", id="next-btn", hx_get="/page", hx_target="#testimonial-card"),
                       )
                   ))
 
 @rt("/page/")
 def get():
-    # Generate a new random testimonial
     return generate_testimonial_card()
 
 serve()
