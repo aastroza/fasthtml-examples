@@ -105,7 +105,7 @@ def generate_testimonial_card() -> Testimonial:
     
 
 # FastHTML app setup
-app, rt = fast_app(hdrs=(picolink,))
+fasthtml_app, rt = fast_app(hdrs=(picolink,))
 
 @rt("/")
 def get():

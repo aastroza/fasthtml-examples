@@ -1,16 +1,18 @@
 import os
-from modal import App, Secret, gpu, method, Image
+from modal import App, Secret, gpu, method, Image, asgi_app
+from app import fasthtml_app
 
 app = App(name="outlines-app")
 
-outlines_image = Image.debian_slim(python_version="3.11").pip_install(
+image = Image.debian_slim(python_version="3.11").pip_install(
     "outlines",
     "transformers",
     "datasets",
     "accelerate",
+    "python-fasthtml"
 )
 
-@app.cls(image=outlines_image, secrets=[Secret.from_dotenv()], gpu=gpu.H100(), timeout=300)
+@app.cls(image=image, secrets=[Secret.from_dotenv()], gpu=gpu.H100(), timeout=300)
 class Model:
     def __init__(self, model_name: str = "mistralai/Mistral-7B-Instruct-v0.2") -> None:
         import outlines
@@ -36,3 +38,8 @@ class Model:
         result = generator(prompt)
 
         return result
+
+@app.function(image=image)
+@asgi_app()
+def get():
+    return fasthtml_app

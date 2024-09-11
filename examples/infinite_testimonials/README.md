@@ -49,7 +49,7 @@ modal setup
 Once that is set, you can setup the Modal app by running:
 
 ```bash
-modal deploy transformers_outlines.py
+modal deploy deploy.py
 ```
 
 You see the Modal app initialize, and then you can start using it.
