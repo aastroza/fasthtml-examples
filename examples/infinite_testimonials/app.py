@@ -122,4 +122,5 @@ def get():
 def get():
     return generate_testimonial_card()
 
-serve()
+
+serve(app="fasthtml_app")
