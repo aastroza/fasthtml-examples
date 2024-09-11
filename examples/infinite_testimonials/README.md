@@ -3,6 +3,8 @@
 
 This is a demo of [FastHTML](https://fastht.ml/) that dynamically generates and displays AI-generated testimonials using [Outlines](https://github.com/outlines-dev/outlines) for Structured Generation. This project showcases how seamlessly technology integrates to enhance web content delivery, [inspired by the possibilities of structured data generation](https://x.com/_scottcondron/status/1828801744853516777) from LLMs.
 
+See the **live demo** [here](https://aastroza--outlines-app-get.modal.run/).
+
 ## How it works
 
 We define a structured object that FastHTML renders.
