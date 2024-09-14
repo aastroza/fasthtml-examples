@@ -14,7 +14,7 @@ image = Image.debian_slim(python_version="3.11").pip_install(
 
 @app.cls(image=image, secrets=[Secret.from_dotenv()], gpu=gpu.H100(), timeout=300)
 class Model:
-    def __init__(self, model_name: str = "mistralai/Mistral-7B-Instruct-v0.2") -> None:
+    def __init__(self, model_name: str = "microsoft/Phi-3.5-mini-instruct") -> None:
         import outlines
 
         self.model = outlines.models.transformers(
