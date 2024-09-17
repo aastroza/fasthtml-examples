@@ -1,15 +1,15 @@
 import os
 from modal import App, Secret, gpu, method, Image, asgi_app
-from app import fasthtml_app
+from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = App(name="outlines-app")
 
 image = Image.debian_slim(python_version="3.11").pip_install(
-    "outlines",
+    "outlines==0.0.46",
     "transformers",
     "datasets",
     "accelerate",
-    "python-fasthtml"
 )
 
 @app.cls(image=image, secrets=[Secret.from_dotenv()], gpu=gpu.H100(), timeout=300)
@@ -27,19 +27,32 @@ class Model:
         )
 
     @method()
-    def generate(self, schema: str, prompt: str, whitespace_pattern: str = None):
+    async def generate(self, json_schema: str, prompt: str, whitespace_pattern: str = None):
         import outlines
 
         if whitespace_pattern:
-            generator = outlines.generate.json(self.model, schema.strip(), whitespace_pattern=whitespace_pattern)
+            generator = outlines.generate.json(self.model, json_schema.strip(), whitespace_pattern=whitespace_pattern)
         else:
-            generator = outlines.generate.json(self.model, schema.strip())
+            generator = outlines.generate.json(self.model, json_schema.strip())
 
         result = generator(prompt)
 
         return result
 
+model = Model()
+
+api = FastAPI()
+
+class GenerateRequest(BaseModel):
+    json_schema: str
+    prompt: str
+
+@api.post("/generate")
+async def generate(request: GenerateRequest):
+    result = await model.generate.remote(request.json_schema, request.prompt)
+    return {"result": result}
+
 @app.function(image=image)
 @asgi_app()
-def get():
-    return fasthtml_app
+def fastapi_app():
+    return api

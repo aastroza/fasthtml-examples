@@ -54,4 +54,9 @@ Once that is set, you can setup the Modal app by running:
 modal deploy deploy.py
 ```
 
-You see the Modal app initialize, and then you can start using it.
+Finally, you can deploy the FastHTML app:
+```bash
+modal deploy app.py
+```
+
+and navigate to the URL that appears in the terminal.
