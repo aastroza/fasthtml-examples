@@ -68,7 +68,7 @@ GPU_CONFIG = gpu.H100()
     secrets=[
         Secret.from_dotenv(),
     ],
-    #mounts=[Mount.from_local_file(local_path = "outlines_serve.py", remote_path = "/root/outlines_serve.py")],
+    #mounts=[Mount.from_local_file(local_path = "serve.py", remote_path = "/root/serve.py")],
 )
 @web_server(8000, startup_timeout=300)
 def outlines_server():
