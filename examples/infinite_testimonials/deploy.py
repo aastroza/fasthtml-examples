@@ -1,7 +1,5 @@
 import os
-from modal import App, Secret, gpu, method, Image, asgi_app
-from fastapi import FastAPI
-from pydantic import BaseModel
+from modal import App, Secret, gpu, method, Image
 
 app = App(name="outlines-app")
 
@@ -10,6 +8,7 @@ image = Image.debian_slim(python_version="3.11").pip_install(
     "transformers",
     "datasets",
     "accelerate",
+    "fastapi",
 )
 
 @app.cls(image=image, secrets=[Secret.from_dotenv()], gpu=gpu.H100(), timeout=300)
@@ -38,21 +37,3 @@ class Model:
         result = generator(prompt)
 
         return result
-
-model = Model()
-
-api = FastAPI()
-
-class GenerateRequest(BaseModel):
-    json_schema: str
-    prompt: str
-
-@api.post("/generate")
-async def generate(request: GenerateRequest):
-    result = await model.generate.remote(request.json_schema, request.prompt)
-    return {"result": result}
-
-@app.function(image=image)
-@asgi_app()
-def fastapi_app():
-    return api

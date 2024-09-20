@@ -1,8 +1,7 @@
 import fasthtml.common as fh
 from pydantic import BaseModel
-import modal
+from modal import App, Image, Cls, asgi_app
 from textwrap import dedent
-import httpx
 
 class Testimonial(BaseModel):
     quote: str
@@ -16,6 +15,9 @@ class Testimonial(BaseModel):
             fh.H4(self.name),
             fh.P(f"{self.role}, {self.company}"),
         )
+
+Model = Cls.lookup("outlines-app", "Model")
+m = Model()
 
 schema = """{
     "title": "Testimonial",
@@ -57,6 +59,10 @@ prompt_template = dedent(
                                 <|assistant|>
                                 """)
 
+def generate_testimonial_card() -> Testimonial:
+    result = m.generate.remote(schema.strip(),  prompt_template.format(schema=schema.strip()))
+    return Testimonial(**result)
+
 # FastHTML app setup
 fasthtml_app, rt = fh.fast_app(hdrs=(
     fh.Style("""
@@ -84,31 +90,22 @@ def get():
                   )
 
 @rt("/page")
-async def get():
-    async with httpx.AsyncClient() as client:
-        response = await client.post(
-            "https://aastroza--outlines-app-fastapi-app.modal.run/generate",
-            json={"json_schema": schema.strip(), "prompt": prompt_template.format(schema=schema.strip())}
-        )
-        if response.status_code == 200:
-            result = response.json()["result"]
-            testimonial = Testimonial(**result)
-            return testimonial
-        else:
-            return fh.Div("Error generating testimonial")
+def get():
+    return generate_testimonial_card()
 
 if __name__ == "__main__":  # if invoked with `python`, run locally
     fh.serve(app="fasthtml_app")
 else:  # create a modal app, which can be imported in another file or used with modal commands as in README
-    app = modal.App(name="fasthtml-app")
+    app = App(name="fasthtml-app")
+    image = Image.debian_slim().pip_install(
+            "python-fasthtml"
+        )
 
     # modal uses decorators to define infrastructure and deployments
     @app.function(  # here's where you can attach GPUs, define concurrency limits, etc.
-        image=modal.Image.debian_slim().pip_install(
-            "python-fasthtml"
-        ),
+        image=image,
         allow_concurrent_inputs=1000,  # async functions can handle multiple inputs
     )
-    @modal.asgi_app()  # add this decorator to a function that returns your fastHTML app to make it deployable on Modal
+    @asgi_app()  # add this decorator to a function that returns your fastHTML app to make it deployable on Modal
     def serve():
         return fasthtml_app
